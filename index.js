@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello from gadgetly test message");
+  res.send("Hello from gadgetly test messages");
 });
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jv7le.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
