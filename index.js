@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello from gadgetly");
+  res.send("Hello from gadgetly test msg");
 });
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jv7le.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -31,7 +31,6 @@ async function run() {
   try {
     await client.connect();
     const productCollection = client.db("gadgetlydb").collection("products");
-    console.log("db connected test msgs");
     app.get("/product", async (req, res) => {
       const query = {};
       const cursor = productCollection.find(query);
