@@ -37,11 +37,31 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
     app.get("/product/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const product = await productCollection.findOne(query);
       res.send(product);
+    });
+
+    app.put("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      const updated = req.body;
+      console.log("Updated quantity", updated);
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          quantity: updated.quantity,
+        },
+      };
+      const result = await productCollection.updateOne(
+        filter,
+        updatedDoc,
+        options
+      );
+      res.send(result);
     });
   } finally {
     // await client.close();
