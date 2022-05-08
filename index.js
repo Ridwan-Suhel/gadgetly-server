@@ -24,7 +24,6 @@ function verifyJWT(req, res, next) {
     if (err) {
       return res.status(403).send({ message: "Forbidded access" });
     }
-    console.log("decoded", decoded);
     req.decoded = decoded;
   });
   next();
@@ -114,6 +113,13 @@ async function run() {
       } else {
         res.status(403).send({ message: "Forbidded access" });
       }
+    });
+
+    app.delete("/myproduct/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await productCollection.deleteOne(query);
+      res.send(result);
     });
   } finally {
     // await client.close();
