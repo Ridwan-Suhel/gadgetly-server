@@ -11,7 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello from gadgetly test messages");
+  res.send(
+    "Hello from gadgetly || test commit for recheck and heroku Application error solving commit. "
+  );
 });
 
 function verifyJWT(req, res, next) {
