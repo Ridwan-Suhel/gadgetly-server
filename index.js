@@ -105,7 +105,7 @@ async function run() {
 
     // my item collection
     app.get("/myproduct", verifyJWT, async (req, res) => {
-      const decodedEmail = req.decoded.email;
+      const decodedEmail = req?.decoded?.email;
       const email = req.query.email;
       if (email === decodedEmail) {
         const query = { email: email };
