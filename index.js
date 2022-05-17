@@ -17,14 +17,14 @@ app.get("/", (req, res) => {
 });
 
 function verifyJWT(req, res, next) {
-  const authHeader = req.headers.authorization;
+  const authHeader = req?.headers?.authorization;
   if (!authHeader) {
     return res.status(401).send({ message: "Unauthorized access" });
   }
   const token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
-      return res.status(403).send({ message: "Forbidded access" });
+      return res.status(403).send({ message: "Forbidden access" });
     }
     req.decoded = decoded;
   });
@@ -49,7 +49,7 @@ async function run() {
     await client.connect();
     const productCollection = client.db("gadgetlydb").collection("products");
 
-    app.post("/login", async (req, res) => {
+    app.post("/login", (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d",
@@ -71,6 +71,7 @@ async function run() {
       res.send(product);
     });
 
+    //updating
     app.put("/product/:id", async (req, res) => {
       const id = req.params.id;
       const updated = req.body;
@@ -106,14 +107,14 @@ async function run() {
     // my item collection
     app.get("/myproduct", verifyJWT, async (req, res) => {
       const decodedEmail = req?.decoded?.email;
-      const email = req.query.email;
+      const email = req?.query?.email;
       if (email === decodedEmail) {
         const query = { email: email };
         const cursor = productCollection.find(query);
         const item = await cursor.toArray();
         res.send(item);
       } else {
-        res.status(403).send({ message: "Forbidded access" });
+        res.status(403).send({ message: "Forbidden access" });
       }
     });
 
