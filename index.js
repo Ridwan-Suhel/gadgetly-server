@@ -48,6 +48,9 @@ async function run() {
   try {
     await client.connect();
     const productCollection = client.db("gadgetlydb").collection("products");
+    const prDeliveredCollection = client
+      .db("gadgetlydb")
+      .collection("deliveredProducts");
 
     app.post("/login", (req, res) => {
       const user = req.body;
@@ -71,7 +74,8 @@ async function run() {
       res.send(product);
     });
 
-    //updating
+    //==========updating delivered================
+    //==========================
     app.put("/product/:id", async (req, res) => {
       const id = req.params.id;
       const updated = req.body;
@@ -90,6 +94,15 @@ async function run() {
       );
       res.send(result);
     });
+
+    app.get("/delivered/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const product = await productCollection.findOne(query);
+      res.send(product);
+    });
+    //==========updating delivered end================
+    //==========================
 
     app.delete("/product/:id", async (req, res) => {
       const id = req.params.id;
