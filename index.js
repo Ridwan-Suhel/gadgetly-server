@@ -60,7 +60,19 @@ async function run() {
       res.send({ accessToken });
     });
 
+    // code for search implement -- failed
     app.get("/product", async (req, res) => {
+      const supplier = req.query.supplier;
+      // const query = { supplier: supplier };
+      const result = await productCollection
+        .find({
+          $or: [{ supplier: { $regex: `${supplier}` } }],
+        })
+        .toArray();
+      return res.send(result);
+    });
+
+    app.get("/products", async (req, res) => {
       const query = {};
       const cursor = productCollection.find(query);
       const result = await cursor.toArray();
