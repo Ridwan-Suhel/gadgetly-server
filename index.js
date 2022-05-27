@@ -113,6 +113,7 @@ async function run() {
 
     app.post("/product", async (req, res) => {
       const newProduct = req.body;
+      console.log(newProduct);
       const result = await productCollection.insertOne(newProduct);
       res.send(result);
     });
@@ -130,6 +131,38 @@ async function run() {
         res.status(403).send({ message: "Forbidden access" });
       }
     });
+
+    // =========================================
+    // =========================================
+    // This is also Working [working by email query as like top code]
+    // app.get("/myproduct", verifyJWT, async (req, res) => {
+    //   const email = req?.query?.email;
+    //   const decodedEmail = req?.decoded?.email;
+    //   if (email === decodedEmail) {
+    //     const query = { email: email };
+    //     const cursor = await productCollection.find(query).toArray();
+    //     res.send(cursor);
+    //   } else {
+    //     res.status(403).send({ message: "Forbidden access" });
+    //   }
+    // });
+
+    // =========================================
+    // =========================================
+    // This is also Working [working by email params]
+
+    // app.get("/myproduct/:email", verifyJWT, async (req, res) => {
+    //   const email = req?.params?.email;
+    //   const decodedEmail = req?.decoded?.email;
+    //   if (email === decodedEmail) {
+    //     const query = { email: email };
+    //     const result = await productCollection.find(query).toArray();
+
+    //     res.send(result);
+    //   } else {
+    //     return res.status(403).send({ message: "Forbidden Access" });
+    //   }
+    // });
 
     app.delete("/myproduct/:id", async (req, res) => {
       const id = req.params.id;
